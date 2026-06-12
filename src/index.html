@@ -11,8 +11,10 @@
 <body>
     <div class="container">
         <h1>To-Do List</h1>
-        <input type="text" id="taskInput" placeholder="Enter a new task">
+        <input type="text" id="titleInput" placeholder="Enter a Title">
+        <input type="date" id="dateInput" placeholder="Enter a Date">
         <button onclick="addTask()">Add Task</button>
+        <div id="error" style="color: red;"></div>
         <ul id="taskList"></ul>
     </div>
 </body>
