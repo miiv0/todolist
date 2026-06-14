@@ -1,7 +1,6 @@
 const openFolderBtn = document.getElementById("openFolderModal")
 const openTaskBtn = document.getElementById("openTaskModal")
 const closeFolderBtn = document.getElementById("closeFolderButton")
-const closeFolderBtn = document.getElementById("closeFolderButton")
 const closeTaskBtn = document.getElementById("closeTaskButton")
 const folderModal = document.getElementById("folderModal")
 const taskModal = document.getElementById("taskModal")
@@ -34,4 +33,5 @@ function addFolder() {
         folderContainer.appendChild(li);
     }
     folderInput.value = ''
+    folderModal.classList.remove("open");
 }
