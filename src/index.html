@@ -10,31 +10,46 @@
 </head>
 
 <body>
-    <div id="sidebar">
-        <div>Note Tracker</div>
-        <button id="openModal">+ Add Project</button>
-        <div id="projects"></div>
-
-        <div class="modal" id="modal">
-            <div class="modalInner">
-                <div class="modalHeader">
-                    <div>Add Task</div>
-                    <button id="closeModal">X</button>
-                </div>
-                <form id="taskForm">
-                    <div class="titleInfo">Title</div>
-                    <input type="text" class="input" placeholder="Enter title" required>
-                    <div class="descInfo">Description</div>
-                    <input type="text" class="input" placeholder="Enter description" required>
-                    <div class="Date">Date</div>
-                    <input type="date" class="input" required>
-                    <button type="submit">Add</button>
-                </form>
+    <div class="modal" id="folderModal">
+        <div class="modalInner">
+            <div class="modalHeader">
+                <div>Add Folder</div>
+                <button id="closeModal">X</button>
             </div>
+            <form id="folderForm">
+                <div class="titleInfo">Title</div>
+                <input type="text" class="input" placeholder="Folder Name" required>
+                <input type="text" class="input" placeholder="Description" required>
+                <button type="button" id="addFolderButton">Add</button>
+            </form>
         </div>
     </div>
-    <div id="main">
-        <div id="tasks"></div>
+    <div class="modal" id="taskModal">
+        <div class="modalInner">
+            <div class="modalHeader">
+                <div>Add Task</div>
+                <button id="closeModal">X</button>
+            </div>
+            <form id="taskForm">
+                <div class="titleInfo">Title</div>
+                <input type="text" class="input" placeholder="Enter title" required>
+                <div class="descInfo">Description</div>
+                <input type="text" class="input" placeholder="Enter description" required>
+                <div class="Date">Date</div>
+                <input type="date" class="input" required>
+                <button type="button" id="addTaskButton">Add</button>
+            </form>
+        </div>
+    </div>
+    <div id="sidebar">
+        <div>Note Tracker</div>
+        <button id="openFolderModal">+ Folder</button>
+        <button id="openTaskModal">+ Task</button>
+        <div id="content"></div>
+    </div>
+    <div id="noteContent">
+        <div id="noteTitle">test</div>
+        <div id="noteDescription">test</div>
     </div>
 </body>
 
