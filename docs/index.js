@@ -29,9 +29,9 @@ function saveProjects() {
     localStorage.setItem("projects", JSON.stringify(projects))
 }
 
-function renderFolders() {
+function renderAll() {
     folderContainer.innerHTML = ''
-    projectFolderInput.innerHTML = '<option value="">Select a folder</option>'
+    projectFolderInput.innerHTML = '<option value="">No folder</option>'
 
     folders.forEach((name, index) => {
         let li = document.createElement("li")
@@ -49,7 +49,7 @@ function renderFolders() {
             projects = projects.filter(p => p.folder !== name)
             saveFolders()
             saveProjects()
-            renderFolders()
+            renderAll()
         }
 
         let projectList = document.createElement("ul")
@@ -67,12 +67,13 @@ function renderFolders() {
         projectFolderInput.appendChild(option)
     })
 
-    renderProjects()
-}
+    // catch-all list for projects with no folder
+    let noFolderList = document.createElement("ul")
+    noFolderList.classList.add("task-sublist")
+    noFolderList.id = "folder-none"
+    folderContainer.appendChild(noFolderList)
 
-function renderProjects() {
-    document.querySelectorAll(".task-sublist").forEach(ul => ul.innerHTML = '')
-
+    // render all projects into their lists
     projects.forEach((project, index) => {
         const targetList = document.getElementById(`folder-${project.folder}`)
         if (!targetList) return
@@ -97,7 +98,7 @@ function renderProjects() {
             }
             projects.splice(index, 1)
             saveProjects()
-            renderProjects()
+            renderAll()
         }
 
         li.appendChild(label)
@@ -172,7 +173,7 @@ function addFolder() {
     } else {
         folders.push(folderInput.value)
         saveFolders()
-        renderFolders()
+        renderAll()
         folderModal.classList.remove("open")
     }
     folderInput.value = ''
@@ -181,19 +182,17 @@ function addFolder() {
 function addProject() {
     if (projectTitleInput.value === '') {
         projectTitleInput.placeholder = "You must enter a title!"
-    } else if (projectFolderInput.value === '') {
-        projectFolderInput.focus()
     } else {
         const project = {
             title: projectTitleInput.value,
             description: projectDescInput.value,
-            folder: projectFolderInput.value,
+            folder: projectFolderInput.value || 'none',
             date: projectDateInput.value,
             subtasks: []
         }
         projects.push(project)
         saveProjects()
-        renderProjects()
+        renderAll()
         projectModal.classList.remove("open")
     }
     projectTitleInput.value = ''
@@ -207,4 +206,4 @@ closeFolderBtn.addEventListener("click", () => folderModal.classList.remove("ope
 openProjectBtn.addEventListener("click", () => projectModal.classList.add("open"))
 closeProjectBtn.addEventListener("click", () => projectModal.classList.remove("open"))
 
-renderFolders()
+renderAll()

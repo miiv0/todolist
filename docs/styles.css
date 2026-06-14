@@ -38,7 +38,8 @@ body {
     margin-bottom: 8px;
 }
 
-#sidebar button {
+#openFolderModal,
+#openProjectModal {
     background: none;
     border: none;
     text-align: left;
@@ -52,7 +53,8 @@ body {
     width: 100%;
 }
 
-#sidebar button:hover {
+#openFolderModal:hover,
+#openProjectModal:hover {
     background-color: #f0f0f5;
 }
 
@@ -68,11 +70,11 @@ body {
 .list-item {
     display: flex;
     align-items: center;
-    justify-content: space-between;
     padding: 6px 10px;
     border-radius: 8px;
     font-size: 13.5px;
     transition: background 0.15s ease;
+    gap: 6px;
 }
 
 .list-item:hover {
@@ -83,6 +85,10 @@ body {
     cursor: pointer;
     flex: 1;
     color: #1d1d1f;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .task-item span {
@@ -100,12 +106,14 @@ body {
 
 .delete-btn {
     display: none;
+    flex-shrink: 0;
+    width: auto;
     background: none;
     border: none;
     color: #c7c7cc;
     cursor: pointer;
-    font-size: 13px;
-    padding: 0 3px;
+    font-size: 11px;
+    padding: 2px 6px;
     border-radius: 4px;
     transition: color 0.15s ease;
     line-height: 1;
@@ -370,48 +378,4 @@ form button[type="button"] {
 
 form button[type="button"]:hover {
     background-color: #0077ed;
-}
-
-.list-item {
-    display: flex;
-    align-items: center;
-    padding: 6px 10px;
-    border-radius: 8px;
-    font-size: 13.5px;
-    transition: background 0.15s ease;
-    position: relative;
-}
-
-.list-item span {
-    cursor: pointer;
-    flex: 1;
-    color: #1d1d1f;
-    min-width: 0;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    padding-right: 24px;
-}
-
-.delete-btn {
-    display: none;
-    position: absolute;
-    right: 8px;
-    background: none;
-    border: none;
-    color: #c7c7cc;
-    cursor: pointer;
-    font-size: 13px;
-    padding: 2px 5px;
-    border-radius: 4px;
-    transition: color 0.15s ease;
-    line-height: 1;
-}
-
-.list-item:hover .delete-btn {
-    display: inline;
-}
-
-.delete-btn:hover {
-    color: #ff3b30;
 }
