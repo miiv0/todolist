@@ -50,9 +50,11 @@ function renderFolders() {
 }
 
 function renderTasks() {
+    // clear only task items, not folders
+    document.querySelectorAll(".task-item").forEach(el => el.remove())
     tasks.forEach((task, index) => {
         let li = document.createElement("li")
-        li.classList.add("list-item")
+        li.classList.add("list-item", "task-item")
         li.innerHTML = `<span>${task.title}</span>`
 
         let deleteBtn = document.createElement("button")
@@ -61,7 +63,7 @@ function renderTasks() {
         deleteBtn.onclick = () => {
             tasks.splice(index, 1)
             saveTasks()
-            li.remove()
+            renderTasks()
         }
 
         li.appendChild(deleteBtn)
@@ -109,9 +111,7 @@ function addTask() {
         }
         tasks.push(task)
         saveTasks()
-        let li = document.createElement("li")
-        li.innerHTML = task.title
-        folderContainer.appendChild(li)
+        renderTasks()
         taskModal.classList.remove("open")
     }
     taskTitleInput.value = ''
