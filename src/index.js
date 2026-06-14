@@ -1,15 +1,12 @@
-const addTaskButton = document.getElementById("addTaskButton")
-const addFolderButton = document.getElementById("addFolderbutton")
 const openFolderBtn = document.getElementById("openFolderModal")
 const openTaskBtn = document.getElementById("openTaskModal")
-const closeFolderBtn = document.getElementById("closeModal")
-const closeTaskBtn = document.getElementById("closeModal")
-const taskModal = document.getElementById("modal")
-const folderModal = document.getElementById("modal")
-
-
+const closeFolderBtn = document.getElementById("closeFolderButton")
+const closeFolderBtn = document.getElementById("closeFolderButton")
+const closeTaskBtn = document.getElementById("closeTaskButton")
+const folderModal = document.getElementById("folderModal")
+const taskModal = document.getElementById("taskModal")
+const folderContainer = document.getElementById("folderList")
 const folderInput = document.getElementById("folderInput")
-const folderContainer = document.getElementById("content")
 
 openFolderBtn.addEventListener("click", () => {
     folderModal.classList.add("open");
