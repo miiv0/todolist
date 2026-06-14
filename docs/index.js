@@ -233,4 +233,21 @@ closeFolderBtn.addEventListener("click", () => folderModal.classList.remove("ope
 openProjectBtn.addEventListener("click", () => projectModal.classList.add("open"))
 closeProjectBtn.addEventListener("click", () => projectModal.classList.remove("open"))
 
+const themeSwitch = document.getElementById("themeSwitch")
+const themeLabel = document.getElementById("themeLabel")
+
+function applyTheme(dark) {
+    document.body.classList.toggle("dark", dark)
+    themeLabel.textContent = dark ? "Dark" : "Light"
+    themeSwitch.checked = dark
+    localStorage.setItem("theme", dark ? "dark" : "light")
+}
+
+themeSwitch.addEventListener("change", () => {
+    applyTheme(themeSwitch.checked)
+})
+
+const savedTheme = localStorage.getItem("theme")
+applyTheme(savedTheme === "dark")
+
 renderAll()
