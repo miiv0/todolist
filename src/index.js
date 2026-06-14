@@ -25,34 +25,50 @@ function saveTasks() {
 function renderFolders() {
     folderContainer.innerHTML = ''
     taskFolderInput.innerHTML = '<option value="">Select a folder</option>'
+
     folders.forEach((name, index) => {
         let li = document.createElement("li")
         li.classList.add("list-item")
-        li.innerHTML = `<span>${name}</span>`
+
+        let folderLabel = document.createElement("span")
+        folderLabel.innerHTML = name
 
         let deleteBtn = document.createElement("button")
         deleteBtn.innerHTML = "x"
         deleteBtn.classList.add("delete-btn")
         deleteBtn.onclick = () => {
             folders.splice(index, 1)
+            tasks = tasks.filter(t => t.folder !== name)
             saveFolders()
+            saveTasks()
             renderFolders()
         }
 
+        let taskList = document.createElement("ul")
+        taskList.classList.add("task-sublist")
+        taskList.id = `folder-${name}`
+
+        li.appendChild(folderLabel)
         li.appendChild(deleteBtn)
         folderContainer.appendChild(li)
+        folderContainer.appendChild(taskList)
 
         let option = document.createElement("option")
         option.value = name
         option.textContent = name
         taskFolderInput.appendChild(option)
     })
+
+    renderTasks()
 }
 
 function renderTasks() {
-    // clear only task items, not folders
-    document.querySelectorAll(".task-item").forEach(el => el.remove())
+    document.querySelectorAll(".task-sublist").forEach(ul => ul.innerHTML = '')
+
     tasks.forEach((task, index) => {
+        const targetList = document.getElementById(`folder-${task.folder}`)
+        if (!targetList) return
+
         let li = document.createElement("li")
         li.classList.add("list-item", "task-item")
         li.innerHTML = `<span>${task.title}</span>`
@@ -67,25 +83,9 @@ function renderTasks() {
         }
 
         li.appendChild(deleteBtn)
-        folderContainer.appendChild(li)
+        targetList.appendChild(li)
     })
 }
-
-openFolderBtn.addEventListener("click", () => {
-    folderModal.classList.add("open");
-});
-
-closeFolderBtn.addEventListener("click", () => {
-    folderModal.classList.remove("open");
-});
-
-openTaskBtn.addEventListener("click", () => {
-    taskModal.classList.add("open");
-});
-
-closeTaskBtn.addEventListener("click", () => {
-    taskModal.classList.remove("open");
-});
 
 function addFolder() {
     if (folderInput.value === '') {
@@ -102,6 +102,8 @@ function addFolder() {
 function addTask() {
     if (taskTitleInput.value === '') {
         taskTitleInput.placeholder = "You must enter a title!"
+    } else if (taskFolderInput.value === '') {
+        taskFolderInput.focus()
     } else {
         const task = {
             title: taskTitleInput.value,
@@ -120,5 +122,20 @@ function addTask() {
     taskDateInput.value = ''
 }
 
+openFolderBtn.addEventListener("click", () => {
+    folderModal.classList.add("open")
+})
+
+closeFolderBtn.addEventListener("click", () => {
+    folderModal.classList.remove("open")
+})
+
+openTaskBtn.addEventListener("click", () => {
+    taskModal.classList.add("open")
+})
+
+closeTaskBtn.addEventListener("click", () => {
+    taskModal.classList.remove("open")
+})
+
 renderFolders()
-renderTasks()
