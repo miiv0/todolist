@@ -1,30 +1,37 @@
 const openFolderBtn = document.getElementById("openFolderModal")
-const openTaskBtn = document.getElementById("openTaskModal")
+const openProjectBtn = document.getElementById("openProjectModal")
 const closeFolderBtn = document.getElementById("closeFolderButton")
-const closeTaskBtn = document.getElementById("closeTaskButton")
+const closeProjectBtn = document.getElementById("closeProjectButton")
 const folderModal = document.getElementById("folderModal")
-const taskModal = document.getElementById("taskModal")
+const projectModal = document.getElementById("projectModal")
 const folderContainer = document.getElementById("folderList")
 const folderInput = document.getElementById("folderInput")
-const taskTitleInput = document.getElementById("taskTitle")
-const taskDescInput = document.getElementById("taskDescription")
-const taskFolderInput = document.getElementById("taskFolder")
-const taskDateInput = document.getElementById("taskDate")
+const projectTitleInput = document.getElementById("projectTitle")
+const projectDescInput = document.getElementById("projectDescription")
+const projectFolderInput = document.getElementById("projectFolder")
+const projectDateInput = document.getElementById("projectDate")
+const projectView = document.getElementById("projectView")
+const placeholder = document.getElementById("placeholder")
+const viewTitle = document.getElementById("viewTitle")
+const viewDescription = document.getElementById("viewDescription")
+const subtaskList = document.getElementById("subtaskList")
+const subtaskInput = document.getElementById("subtaskInput")
 
 let folders = JSON.parse(localStorage.getItem("folders")) || []
-let tasks = JSON.parse(localStorage.getItem("tasks")) || []
+let projects = JSON.parse(localStorage.getItem("projects")) || []
+let activeProjectIndex = null
 
 function saveFolders() {
     localStorage.setItem("folders", JSON.stringify(folders))
 }
 
-function saveTasks() {
-    localStorage.setItem("tasks", JSON.stringify(tasks))
+function saveProjects() {
+    localStorage.setItem("projects", JSON.stringify(projects))
 }
 
 function renderFolders() {
     folderContainer.innerHTML = ''
-    taskFolderInput.innerHTML = '<option value="">Select a folder</option>'
+    projectFolderInput.innerHTML = '<option value="">Select a folder</option>'
 
     folders.forEach((name, index) => {
         let li = document.createElement("li")
@@ -38,53 +45,123 @@ function renderFolders() {
         deleteBtn.classList.add("delete-btn")
         deleteBtn.onclick = () => {
             folders.splice(index, 1)
-            tasks = tasks.filter(t => t.folder !== name)
+            projects = projects.filter(p => p.folder !== name)
             saveFolders()
-            saveTasks()
+            saveProjects()
             renderFolders()
         }
 
-        let taskList = document.createElement("ul")
-        taskList.classList.add("task-sublist")
-        taskList.id = `folder-${name}`
+        let projectList = document.createElement("ul")
+        projectList.classList.add("task-sublist")
+        projectList.id = `folder-${name}`
 
         li.appendChild(folderLabel)
         li.appendChild(deleteBtn)
         folderContainer.appendChild(li)
-        folderContainer.appendChild(taskList)
+        folderContainer.appendChild(projectList)
 
         let option = document.createElement("option")
         option.value = name
         option.textContent = name
-        taskFolderInput.appendChild(option)
+        projectFolderInput.appendChild(option)
     })
 
-    renderTasks()
+    renderProjects()
 }
 
-function renderTasks() {
+function renderProjects() {
     document.querySelectorAll(".task-sublist").forEach(ul => ul.innerHTML = '')
 
-    tasks.forEach((task, index) => {
-        const targetList = document.getElementById(`folder-${task.folder}`)
+    projects.forEach((project, index) => {
+        const targetList = document.getElementById(`folder-${project.folder}`)
         if (!targetList) return
 
         let li = document.createElement("li")
         li.classList.add("list-item", "task-item")
-        li.innerHTML = `<span>${task.title}</span>`
+
+        let label = document.createElement("span")
+        label.innerHTML = project.title
+        label.style.cursor = "pointer"
+        label.onclick = () => openProject(index)
 
         let deleteBtn = document.createElement("button")
         deleteBtn.innerHTML = "x"
         deleteBtn.classList.add("delete-btn")
         deleteBtn.onclick = () => {
-            tasks.splice(index, 1)
-            saveTasks()
-            renderTasks()
+            if (activeProjectIndex === index) {
+                projectView.style.display = 'none'
+                placeholder.style.display = 'block'
+                activeProjectIndex = null
+            }
+            projects.splice(index, 1)
+            saveProjects()
+            renderProjects()
         }
 
+        li.appendChild(label)
         li.appendChild(deleteBtn)
         targetList.appendChild(li)
     })
+}
+
+function openProject(index) {
+    activeProjectIndex = index
+    const project = projects[index]
+    viewTitle.textContent = project.title
+    viewDescription.textContent = project.description || ''
+    placeholder.style.display = 'none'
+    projectView.style.display = 'block'
+    renderSubtasks()
+}
+
+function renderSubtasks() {
+    subtaskList.innerHTML = ''
+    const project = projects[activeProjectIndex]
+    if (!project || !project.subtasks) return
+
+    project.subtasks.forEach((subtask, index) => {
+        let li = document.createElement("li")
+        li.classList.add("list-item", "subtask-item")
+
+        let checkbox = document.createElement("input")
+        checkbox.type = "checkbox"
+        checkbox.checked = subtask.done
+        checkbox.onchange = () => {
+            projects[activeProjectIndex].subtasks[index].done = checkbox.checked
+            saveProjects()
+            renderSubtasks()
+        }
+
+        let label = document.createElement("span")
+        label.textContent = subtask.text
+        if (subtask.done) label.style.textDecoration = "line-through"
+
+        let deleteBtn = document.createElement("button")
+        deleteBtn.innerHTML = "x"
+        deleteBtn.classList.add("delete-btn")
+        deleteBtn.style.display = "inline"
+        deleteBtn.onclick = () => {
+            projects[activeProjectIndex].subtasks.splice(index, 1)
+            saveProjects()
+            renderSubtasks()
+        }
+
+        li.appendChild(checkbox)
+        li.appendChild(label)
+        li.appendChild(deleteBtn)
+        subtaskList.appendChild(li)
+    })
+}
+
+function addSubtask() {
+    if (activeProjectIndex === null || subtaskInput.value === '') return
+    if (!projects[activeProjectIndex].subtasks) {
+        projects[activeProjectIndex].subtasks = []
+    }
+    projects[activeProjectIndex].subtasks.push({ text: subtaskInput.value, done: false })
+    saveProjects()
+    subtaskInput.value = ''
+    renderSubtasks()
 }
 
 function addFolder() {
@@ -99,43 +176,33 @@ function addFolder() {
     folderInput.value = ''
 }
 
-function addTask() {
-    if (taskTitleInput.value === '') {
-        taskTitleInput.placeholder = "You must enter a title!"
-    } else if (taskFolderInput.value === '') {
-        taskFolderInput.focus()
+function addProject() {
+    if (projectTitleInput.value === '') {
+        projectTitleInput.placeholder = "You must enter a title!"
+    } else if (projectFolderInput.value === '') {
+        projectFolderInput.focus()
     } else {
-        const task = {
-            title: taskTitleInput.value,
-            description: taskDescInput.value,
-            folder: taskFolderInput.value,
-            date: taskDateInput.value
+        const project = {
+            title: projectTitleInput.value,
+            description: projectDescInput.value,
+            folder: projectFolderInput.value,
+            date: projectDateInput.value,
+            subtasks: []
         }
-        tasks.push(task)
-        saveTasks()
-        renderTasks()
-        taskModal.classList.remove("open")
+        projects.push(project)
+        saveProjects()
+        renderProjects()
+        projectModal.classList.remove("open")
     }
-    taskTitleInput.value = ''
-    taskDescInput.value = ''
-    taskFolderInput.value = ''
-    taskDateInput.value = ''
+    projectTitleInput.value = ''
+    projectDescInput.value = ''
+    projectFolderInput.value = ''
+    projectDateInput.value = ''
 }
 
-openFolderBtn.addEventListener("click", () => {
-    folderModal.classList.add("open")
-})
-
-closeFolderBtn.addEventListener("click", () => {
-    folderModal.classList.remove("open")
-})
-
-openTaskBtn.addEventListener("click", () => {
-    taskModal.classList.add("open")
-})
-
-closeTaskBtn.addEventListener("click", () => {
-    taskModal.classList.remove("open")
-})
+openFolderBtn.addEventListener("click", () => folderModal.classList.add("open"))
+closeFolderBtn.addEventListener("click", () => folderModal.classList.remove("open"))
+openProjectBtn.addEventListener("click", () => projectModal.classList.add("open"))
+closeProjectBtn.addEventListener("click", () => projectModal.classList.remove("open"))
 
 renderFolders()

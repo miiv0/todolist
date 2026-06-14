@@ -93,3 +93,45 @@ body {
     color: white;
     opacity: 0.85;
 }
+
+#projectView {
+    padding: 30px;
+}
+
+#projectView h2 {
+    margin-bottom: 6px;
+}
+
+#projectView p {
+    color: #555;
+    margin-bottom: 16px;
+}
+
+#addSubtaskRow {
+    display: flex;
+    gap: 8px;
+    margin-top: 12px;
+}
+
+#subtaskInput {
+    padding: 6px;
+    flex: 1;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.subtask-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 0;
+}
+
+#placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    color: #aaa;
+    font-size: 16px;
+}

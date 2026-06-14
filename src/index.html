@@ -23,36 +23,48 @@
             </form>
         </div>
     </div>
-    <div class="modal" id="taskModal">
+
+    <div class="modal" id="projectModal">
         <div class="modalInner">
             <div class="modalHeader">
-                <div>Add Task</div>
-                <button id="closeTaskButton">X</button>
+                <div>Add Project</div>
+                <button id="closeProjectButton">X</button>
             </div>
-            <form id="taskForm">
+            <form id="projectForm">
                 <div class="titleInfo">Title</div>
-                <input type="text" class="input" id="taskTitle" placeholder="Enter title">
-                <div class="descInfo">Description</div>
-                <input type="text" class="input" id="taskDescription" placeholder="Enter description">
-                <div class="descInfo">Folder</div>
-                <select class="input" id="taskFolder" placeholder="Select folder">
-
+                <input type="text" class="input" id="projectTitle" placeholder="Project name">
+                <div class="titleInfo">Description</div>
+                <input type="text" class="input" id="projectDescription" placeholder="Enter description">
+                <div class="titleInfo">Folder</div>
+                <select class="input" id="projectFolder">
                     <option value="">Select a folder</option>
                 </select>
-                <input type="date" class="input" id="taskDate">
-                <button type="button" onclick="addTask()">Add</button>
+                <input type="date" class="input" id="projectDate">
+                <button type="button" onclick="addProject()">Add</button>
             </form>
         </div>
     </div>
+
     <div id="sidebar">
-        <div>Note Tracker</div>
+        <div id="sidebarTitle">Note Tracker</div>
         <button id="openFolderModal">+ Folder</button>
-        <button id="openTaskModal">+ Task</button>
+        <button id="openProjectModal">+ Project</button>
         <ul id="folderList"></ul>
     </div>
+
     <div id="noteContent">
-        <div id="noteTitle">test</div>
-        <div id="noteDescription">test</div>
+        <div id="placeholder">Select a project to view it</div>
+        <div id="projectView" style="display:none">
+            <h2 id="viewTitle"></h2>
+            <p id="viewDescription"></p>
+            <hr>
+            <h3>Tasks</h3>
+            <ul id="subtaskList"></ul>
+            <div id="addSubtaskRow">
+                <input type="text" id="subtaskInput" placeholder="Add a task...">
+                <button type="button" onclick="addSubtask()">Add</button>
+            </div>
+        </div>
     </div>
 </body>
 
