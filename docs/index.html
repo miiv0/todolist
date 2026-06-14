@@ -37,7 +37,7 @@
                 <input type="text" class="input" id="projectDescription" placeholder="Enter description">
                 <div class="titleInfo">Folder</div>
                 <select class="input" id="projectFolder">
-                    <option value="">Select a folder</option>
+                    <option value="">No folder</option>
                 </select>
                 <input type="date" class="input" id="projectDate">
                 <button type="button" onclick="addProject()">Add</button>
@@ -55,15 +55,18 @@
     <div id="noteContent">
         <div id="placeholder">Select a project to view it</div>
         <div id="projectView" style="display:none">
-            <h2 id="viewTitle"></h2>
-            <p id="viewDescription"></p>
+            <div id="projectMeta">
+                <select id="viewFolderSelect" class="input"></select>
+                <h2 id="viewTitle"></h2>
+                <p id="viewDescription"></p>
+            </div>
             <hr>
             <h3>Tasks</h3>
-            <ul id="subtaskList"></ul>
             <div id="addSubtaskRow">
                 <input type="text" id="subtaskInput" placeholder="Add a task...">
                 <button type="button" onclick="addSubtask()">Add</button>
             </div>
+            <ul id="subtaskList"></ul>
         </div>
     </div>
 </body>

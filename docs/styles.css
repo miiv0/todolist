@@ -231,12 +231,6 @@ body {
     display: inline;
 }
 
-#addSubtaskRow {
-    display: flex;
-    gap: 8px;
-    margin-top: 4px;
-}
-
 #subtaskInput {
     flex: 1;
     padding: 9px 14px;
@@ -378,4 +372,45 @@ form button[type="button"] {
 
 form button[type="button"]:hover {
     background-color: #0077ed;
+}
+
+.folder-item>span {
+    font-weight: 600;
+    color: #1d1d1f;
+}
+
+.task-item>span {
+    font-weight: 400;
+    color: #3c3c43;
+}
+
+#projectMeta {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 4px;
+}
+
+#viewFolderSelect {
+    width: fit-content;
+    padding: 4px 10px;
+    font-size: 12px;
+    border-radius: 8px;
+    border: 1px solid #e0e0e5;
+    background: #f5f5f7;
+    color: #6e6e73;
+    font-family: inherit;
+    outline: none;
+    cursor: pointer;
+}
+
+#viewFolderSelect:focus {
+    border-color: #0071e3;
+}
+
+#addSubtaskRow {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 12px;
+    margin-top: 4px;
 }

@@ -14,6 +14,7 @@ const projectView = document.getElementById("projectView")
 const placeholder = document.getElementById("placeholder")
 const viewTitle = document.getElementById("viewTitle")
 const viewDescription = document.getElementById("viewDescription")
+const viewFolderSelect = document.getElementById("viewFolderSelect")
 const subtaskList = document.getElementById("subtaskList")
 const subtaskInput = document.getElementById("subtaskInput")
 
@@ -29,13 +30,25 @@ function saveProjects() {
     localStorage.setItem("projects", JSON.stringify(projects))
 }
 
+function populateFolderSelects() {
+    const options = `<option value="none">No folder</option>` +
+        folders.map(f => `<option value="${f}">${f}</option>`).join('')
+
+    projectFolderInput.innerHTML = options
+    viewFolderSelect.innerHTML = options
+
+    if (activeProjectIndex !== null) {
+        viewFolderSelect.value = projects[activeProjectIndex].folder || 'none'
+    }
+}
+
 function renderAll() {
     folderContainer.innerHTML = ''
-    projectFolderInput.innerHTML = '<option value="">No folder</option>'
+    populateFolderSelects()
 
     folders.forEach((name, index) => {
         let li = document.createElement("li")
-        li.classList.add("list-item")
+        li.classList.add("list-item", "folder-item")
 
         let folderLabel = document.createElement("span")
         folderLabel.innerHTML = name
@@ -60,20 +73,14 @@ function renderAll() {
         li.appendChild(deleteBtn)
         folderContainer.appendChild(li)
         folderContainer.appendChild(projectList)
-
-        let option = document.createElement("option")
-        option.value = name
-        option.textContent = name
-        projectFolderInput.appendChild(option)
     })
 
-    // catch-all list for projects with no folder
+    // catch-all for no folder
     let noFolderList = document.createElement("ul")
     noFolderList.classList.add("task-sublist")
     noFolderList.id = "folder-none"
     folderContainer.appendChild(noFolderList)
 
-    // render all projects into their lists
     projects.forEach((project, index) => {
         const targetList = document.getElementById(`folder-${project.folder}`)
         if (!targetList) return
@@ -114,8 +121,16 @@ function openProject(index) {
     viewDescription.textContent = project.description || ''
     placeholder.style.display = 'none'
     projectView.style.display = 'flex'
+    populateFolderSelects()
     renderSubtasks()
 }
+
+viewFolderSelect.addEventListener("change", () => {
+    if (activeProjectIndex === null) return
+    projects[activeProjectIndex].folder = viewFolderSelect.value
+    saveProjects()
+    renderAll()
+})
 
 function renderSubtasks() {
     subtaskList.innerHTML = ''
