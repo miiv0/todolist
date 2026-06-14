@@ -1,13 +1,40 @@
 const addTaskButton = document.getElementById("addTaskButton")
-const openBtn = document.getElementById("openModal")
-const closeBtn = document.getElementById("closeModal")
-const modal = document.getElementById("modal")
+const addFolderButton = document.getElementById("addFolderbutton")
+const openFolderBtn = document.getElementById("openFolderModal")
+const openTaskBtn = document.getElementById("openTaskModal")
+const closeFolderBtn = document.getElementById("closeModal")
+const closeTaskBtn = document.getElementById("closeModal")
+const taskModal = document.getElementById("modal")
+const folderModal = document.getElementById("modal")
 
-openBtn.addEventListener("click", () => {
-    modal.classList.add("open");
+
+const folderInput = document.getElementById("folderInput")
+const folderContainer = document.getElementById("content")
+
+openFolderBtn.addEventListener("click", () => {
+    folderModal.classList.add("open");
 });
 
-closeBtn.addEventListener("click", () => {
-    modal.classList.remove("open");
+closeFolderBtn.addEventListener("click", () => {
+    folderModal.classList.remove("open");
 });
 
+openTaskBtn.addEventListener("click", () => {
+    taskModal.classList.add("open");
+});
+
+closeTaskBtn.addEventListener("click", () => {
+    taskModal.classList.remove("open");
+});
+
+function addFolder() {
+    if (folderInput.value === '') {
+        folderInput.placeholder = "You must enter a task!"
+    }
+    else {
+        let li = document.createElement("li");
+        li.innerHTML = folderInput.value;
+        folderContainer.appendChild(li);
+    }
+    folderInput.value = ''
+}

@@ -14,13 +14,12 @@
         <div class="modalInner">
             <div class="modalHeader">
                 <div>Add Folder</div>
-                <button id="closeModal">X</button>
+                <button id="closeFolderButton">X</button>
             </div>
             <form id="folderForm">
                 <div class="titleInfo">Title</div>
-                <input type="text" class="input" placeholder="Folder Name" required>
-                <input type="text" class="input" placeholder="Description" required>
-                <button type="button" id="addFolderButton">Add</button>
+                <input type="text" class="input" id="folderInput" placeholder="Folder Name" required>
+                <button onclick="addFolder()">Add</button>
             </form>
         </div>
     </div>
@@ -28,16 +27,17 @@
         <div class="modalInner">
             <div class="modalHeader">
                 <div>Add Task</div>
-                <button id="closeModal">X</button>
+                <button id="closeTaskButton">X</button>
             </div>
             <form id="taskForm">
                 <div class="titleInfo">Title</div>
                 <input type="text" class="input" placeholder="Enter title" required>
                 <div class="descInfo">Description</div>
                 <input type="text" class="input" placeholder="Enter description" required>
-                <div class="Date">Date</div>
+                <div class="descInfo">Folder</div>
+                <input type="text" class="input" placeholder="Select folder" required>
                 <input type="date" class="input" required>
-                <button type="button" id="addTaskButton">Add</button>
+                <button onclick="addTask()">Add</button>
             </form>
         </div>
     </div>
@@ -45,7 +45,7 @@
         <div>Note Tracker</div>
         <button id="openFolderModal">+ Folder</button>
         <button id="openTaskModal">+ Task</button>
-        <div id="content"></div>
+        <ul id="folderList"></ul>
     </div>
     <div id="noteContent">
         <div id="noteTitle">test</div>
