@@ -17,6 +17,7 @@ const viewDescription = document.getElementById("viewDescription")
 const viewFolderSelect = document.getElementById("viewFolderSelect")
 const subtaskList = document.getElementById("subtaskList")
 const subtaskInput = document.getElementById("subtaskInput")
+const subtaskDateInput = document.getElementById("subtaskDate")
 
 let folders = JSON.parse(localStorage.getItem("folders")) || []
 let projects = JSON.parse(localStorage.getItem("projects")) || []
@@ -75,7 +76,6 @@ function renderAll() {
         folderContainer.appendChild(projectList)
     })
 
-    // catch-all for no folder
     let noFolderList = document.createElement("ul")
     noFolderList.classList.add("task-sublist")
     noFolderList.id = "folder-none"
@@ -154,6 +154,12 @@ function renderSubtasks() {
         label.textContent = subtask.text
         if (subtask.done) label.style.textDecoration = "line-through"
 
+        let due = document.createElement("span")
+        due.classList.add("subtask-due")
+        due.textContent = subtask.date
+            ? new Date(subtask.date + 'T00:00:00').toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
+            : ''
+
         let deleteBtn = document.createElement("button")
         deleteBtn.innerHTML = "x"
         deleteBtn.classList.add("delete-btn")
@@ -166,6 +172,7 @@ function renderSubtasks() {
 
         li.appendChild(checkbox)
         li.appendChild(label)
+        li.appendChild(due)
         li.appendChild(deleteBtn)
         subtaskList.appendChild(li)
     })
@@ -176,9 +183,14 @@ function addSubtask() {
     if (!projects[activeProjectIndex].subtasks) {
         projects[activeProjectIndex].subtasks = []
     }
-    projects[activeProjectIndex].subtasks.push({ text: subtaskInput.value, done: false })
+    projects[activeProjectIndex].subtasks.push({
+        text: subtaskInput.value,
+        done: false,
+        date: subtaskDateInput.value || ''
+    })
     saveProjects()
     subtaskInput.value = ''
+    subtaskDateInput.value = ''
     renderSubtasks()
 }
 
