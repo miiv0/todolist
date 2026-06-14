@@ -31,7 +31,22 @@ function addFolder() {
         let li = document.createElement("li");
         li.innerHTML = folderInput.value;
         folderContainer.appendChild(li);
+        folderModal.classList.remove("open")
     }
     folderInput.value = ''
-    folderModal.classList.remove("open");
+        ;
+}
+
+function addTask() {
+    if (taskInput.value === '') {
+        folderInput.placeholder = "You must enter a task!"
+    }
+    else {
+        let li = document.createElement("li");
+        li.innerHTML = folderInput.value;
+        folderContainer.appendChild(li);
+        folderModal.classList.remove("open")
+    }
+    folderInput.value = ''
+        ;
 }
