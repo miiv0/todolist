@@ -60,3 +60,24 @@ body {
     padding: 50px;
     background-color: lightblue;
 }
+
+.list-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 4px 0;
+}
+
+.delete-btn {
+    display: none;
+    background: none;
+    border: none;
+    color: red;
+    cursor: pointer;
+    font-size: 12px;
+    padding: 0 4px;
+}
+
+.list-item:hover .delete-btn {
+    display: inline;
+}

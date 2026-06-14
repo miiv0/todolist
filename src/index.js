@@ -25,9 +25,21 @@ function saveTasks() {
 function renderFolders() {
     folderContainer.innerHTML = ''
     taskFolderInput.innerHTML = '<option value="">Select a folder</option>'
-    folders.forEach(name => {
+    folders.forEach((name, index) => {
         let li = document.createElement("li")
-        li.innerHTML = name
+        li.classList.add("list-item")
+        li.innerHTML = `<span>${name}</span>`
+
+        let deleteBtn = document.createElement("button")
+        deleteBtn.innerHTML = "x"
+        deleteBtn.classList.add("delete-btn")
+        deleteBtn.onclick = () => {
+            folders.splice(index, 1)
+            saveFolders()
+            renderFolders()
+        }
+
+        li.appendChild(deleteBtn)
         folderContainer.appendChild(li)
 
         let option = document.createElement("option")
@@ -38,9 +50,21 @@ function renderFolders() {
 }
 
 function renderTasks() {
-    tasks.forEach(task => {
+    tasks.forEach((task, index) => {
         let li = document.createElement("li")
-        li.innerHTML = task.title
+        li.classList.add("list-item")
+        li.innerHTML = `<span>${task.title}</span>`
+
+        let deleteBtn = document.createElement("button")
+        deleteBtn.innerHTML = "x"
+        deleteBtn.classList.add("delete-btn")
+        deleteBtn.onclick = () => {
+            tasks.splice(index, 1)
+            saveTasks()
+            li.remove()
+        }
+
+        li.appendChild(deleteBtn)
         folderContainer.appendChild(li)
     })
 }
