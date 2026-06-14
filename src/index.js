@@ -6,6 +6,10 @@ const folderModal = document.getElementById("folderModal")
 const taskModal = document.getElementById("taskModal")
 const folderContainer = document.getElementById("folderList")
 const folderInput = document.getElementById("folderInput")
+const taskTitleInput = document.getElementById("taskTitle")
+const taskDescInput = document.getElementById("taskDescription")
+const taskFolderInput = document.getElementById("taskFolder")
+const taskDateInput = document.getElementById("taskDate")
 
 openFolderBtn.addEventListener("click", () => {
     folderModal.classList.add("open");
@@ -25,28 +29,27 @@ closeTaskBtn.addEventListener("click", () => {
 
 function addFolder() {
     if (folderInput.value === '') {
-        folderInput.placeholder = "You must enter a task!"
-    }
-    else {
+        folderInput.placeholder = "You must enter a folder name!"
+    } else {
         let li = document.createElement("li");
         li.innerHTML = folderInput.value;
         folderContainer.appendChild(li);
         folderModal.classList.remove("open")
     }
     folderInput.value = ''
-        ;
 }
 
 function addTask() {
-    if (taskInput.value === '') {
-        folderInput.placeholder = "You must enter a task!"
-    }
-    else {
+    if (taskTitleInput.value === '') {
+        taskTitleInput.placeholder = "You must enter a title!"
+    } else {
         let li = document.createElement("li");
-        li.innerHTML = folderInput.value;
+        li.innerHTML = taskTitleInput.value;
         folderContainer.appendChild(li);
-        folderModal.classList.remove("open")
+        taskModal.classList.remove("open")
     }
-    folderInput.value = ''
-        ;
+    taskTitleInput.value = ''
+    taskDescInput.value = ''
+    taskFolderInput.value = ''
+    taskDateInput.value = ''
 }
