@@ -43,7 +43,8 @@ function renderFolders() {
         let deleteBtn = document.createElement("button")
         deleteBtn.innerHTML = "x"
         deleteBtn.classList.add("delete-btn")
-        deleteBtn.onclick = () => {
+        deleteBtn.onclick = (e) => {
+            e.stopPropagation()
             folders.splice(index, 1)
             projects = projects.filter(p => p.folder !== name)
             saveFolders()
@@ -87,10 +88,11 @@ function renderProjects() {
         let deleteBtn = document.createElement("button")
         deleteBtn.innerHTML = "x"
         deleteBtn.classList.add("delete-btn")
-        deleteBtn.onclick = () => {
+        deleteBtn.onclick = (e) => {
+            e.stopPropagation()
             if (activeProjectIndex === index) {
                 projectView.style.display = 'none'
-                placeholder.style.display = 'block'
+                placeholder.style.display = 'flex'
                 activeProjectIndex = null
             }
             projects.splice(index, 1)
@@ -110,7 +112,7 @@ function openProject(index) {
     viewTitle.textContent = project.title
     viewDescription.textContent = project.description || ''
     placeholder.style.display = 'none'
-    projectView.style.display = 'block'
+    projectView.style.display = 'flex'
     renderSubtasks()
 }
 
@@ -139,8 +141,8 @@ function renderSubtasks() {
         let deleteBtn = document.createElement("button")
         deleteBtn.innerHTML = "x"
         deleteBtn.classList.add("delete-btn")
-        deleteBtn.style.display = "inline"
-        deleteBtn.onclick = () => {
+        deleteBtn.onclick = (e) => {
+            e.stopPropagation()
             projects[activeProjectIndex].subtasks.splice(index, 1)
             saveProjects()
             renderSubtasks()

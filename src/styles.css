@@ -1,137 +1,417 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
 body {
-    background-color: rgb(255, 255, 255);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background-color: #f5f5f7;
     display: flex;
     flex-direction: row;
-    margin: 0
-}
-
-.modal {
-    background-color: rgba(0, 0, 0, 0.116);
-    opacity: 0;
-    top: 0;
-    right: 0;
-    left: 0;
-    bottom: 0;
-    position: fixed;
-    z-index: -1;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.modal.open {
-    opacity: 1;
-    z-index: 999;
-}
-
-.modal.close {
-    opacity: 0;
-    z-index: -1;
-}
-
-.modalInner {
-    border: 1px solid 0;
-    width: 340px;
-    display: flex;
-    gap: 0;
+    height: 100vh;
     overflow: hidden;
-    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.8);
-    transform: translateY(20px) scale(0.98);
-    transition: transform 0.3s ease;
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    background-color: white;
-    padding: 20px;
-    border-radius: 8px;
+    color: #1d1d1f;
 }
 
 #sidebar {
-    width: 200px;
-    min-height: 100vh;
-    padding: 20px;
-    background-color: blue;
+    width: 220px;
+    min-width: 220px;
+    height: 100vh;
+    background-color: #ffffff;
+    border-right: 1px solid #e0e0e5;
+    display: flex;
+    flex-direction: column;
+    padding: 24px 12px;
+    gap: 6px;
 }
 
-#noteContent {
-    flex: 1;
-    min-height: 100vh;
-    padding: 50px;
-    background-color: lightblue;
+#sidebarTitle {
+    font-size: 13px;
+    font-weight: 600;
+    color: #6e6e73;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    padding: 0 8px;
+    margin-bottom: 8px;
+}
+
+#sidebar button {
+    background: none;
+    border: none;
+    text-align: left;
+    padding: 7px 10px;
+    border-radius: 8px;
+    font-size: 13.5px;
+    font-weight: 500;
+    color: #0071e3;
+    cursor: pointer;
+    transition: background 0.15s ease;
+    width: 100%;
+}
+
+#sidebar button:hover {
+    background-color: #f0f0f5;
+}
+
+#folderList {
+    list-style: none;
+    margin-top: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    overflow-y: auto;
 }
 
 .list-item {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 4px 0;
+    padding: 6px 10px;
+    border-radius: 8px;
+    font-size: 13.5px;
+    transition: background 0.15s ease;
+}
+
+.list-item:hover {
+    background-color: #f0f0f5;
+}
+
+.list-item span {
+    cursor: pointer;
+    flex: 1;
+    color: #1d1d1f;
+}
+
+.task-item span {
+    font-size: 13px;
+    color: #3c3c43;
+}
+
+.task-sublist {
+    list-style: none;
+    padding-left: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
 }
 
 .delete-btn {
     display: none;
     background: none;
     border: none;
-    color: red;
+    color: #c7c7cc;
     cursor: pointer;
-    font-size: 12px;
-    padding: 0 4px;
+    font-size: 13px;
+    padding: 0 3px;
+    border-radius: 4px;
+    transition: color 0.15s ease;
+    line-height: 1;
 }
 
 .list-item:hover .delete-btn {
     display: inline;
 }
 
-.task-sublist {
-    padding-left: 12px;
-    margin-top: 4px;
-    list-style: none;
+.delete-btn:hover {
+    color: #ff3b30;
 }
 
-.task-item {
-    font-size: 12px;
-    color: white;
-    opacity: 0.85;
+#noteContent {
+    flex: 1;
+    height: 100vh;
+    overflow-y: auto;
+    background-color: #f5f5f7;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+}
+
+#placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #aeaeb2;
+    font-size: 15px;
+    font-weight: 400;
 }
 
 #projectView {
-    padding: 30px;
-}
-
-#projectView h2 {
-    margin-bottom: 6px;
-}
-
-#projectView p {
-    color: #555;
-    margin-bottom: 16px;
-}
-
-#addSubtaskRow {
+    width: 100%;
+    max-width: 640px;
+    padding: 48px 40px;
     display: flex;
-    gap: 8px;
-    margin-top: 12px;
+    flex-direction: column;
+    gap: 6px;
 }
 
-#subtaskInput {
-    padding: 6px;
-    flex: 1;
-    border: 1px solid #ccc;
-    border-radius: 4px;
+#viewTitle {
+    font-size: 26px;
+    font-weight: 600;
+    color: #1d1d1f;
+    letter-spacing: -0.3px;
+}
+
+#viewDescription {
+    font-size: 14px;
+    color: #6e6e73;
+    font-weight: 400;
+    margin-bottom: 8px;
+}
+
+#projectView hr {
+    border: none;
+    border-top: 1px solid #e0e0e5;
+    margin: 16px 0;
+}
+
+#projectView h3 {
+    font-size: 13px;
+    font-weight: 600;
+    color: #6e6e73;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+}
+
+#subtaskList {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-bottom: 12px;
 }
 
 .subtask-item {
     display: flex;
     align-items: center;
-    gap: 8px;
-    padding: 6px 0;
+    gap: 10px;
+    padding: 10px 14px;
+    background: #ffffff;
+    border-radius: 10px;
+    border: 1px solid #e0e0e5;
+    font-size: 14px;
+    transition: background 0.15s ease;
 }
 
-#placeholder {
+.subtask-item:hover {
+    background: #fafafa;
+}
+
+.subtask-item input[type="checkbox"] {
+    accent-color: #0071e3;
+    width: 15px;
+    height: 15px;
+    cursor: pointer;
+    flex-shrink: 0;
+}
+
+.subtask-item span {
+    flex: 1;
+    color: #1d1d1f;
+}
+
+.subtask-item .delete-btn {
+    display: none;
+}
+
+.subtask-item:hover .delete-btn {
+    display: inline;
+}
+
+#addSubtaskRow {
+    display: flex;
+    gap: 8px;
+    margin-top: 4px;
+}
+
+#subtaskInput {
+    flex: 1;
+    padding: 9px 14px;
+    border: 1px solid #e0e0e5;
+    border-radius: 10px;
+    font-size: 14px;
+    font-family: inherit;
+    background: #ffffff;
+    color: #1d1d1f;
+    outline: none;
+    transition: border-color 0.2s ease;
+}
+
+#subtaskInput:focus {
+    border-color: #0071e3;
+}
+
+#addSubtaskRow button {
+    padding: 9px 18px;
+    background-color: #0071e3;
+    color: #ffffff;
+    border: none;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 500;
+    font-family: inherit;
+    cursor: pointer;
+    transition: background 0.15s ease;
+}
+
+#addSubtaskRow button:hover {
+    background-color: #0077ed;
+}
+
+.modal {
+    opacity: 0;
+    pointer-events: none;
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.25);
+    backdrop-filter: blur(4px);
+    z-index: -1;
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 100%;
-    color: #aaa;
-    font-size: 16px;
+    transition: opacity 0.2s ease;
+}
+
+.modal.open {
+    opacity: 1;
+    pointer-events: all;
+    z-index: 999;
+}
+
+.modalInner {
+    background: #ffffff;
+    border-radius: 16px;
+    width: 360px;
+    padding: 28px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.12);
+}
+
+.modalHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 15px;
+    font-weight: 600;
+    color: #1d1d1f;
+}
+
+.modalHeader button {
+    background: #f0f0f5;
+    border: none;
+    color: #6e6e73;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    font-size: 13px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.15s ease;
+}
+
+.modalHeader button:hover {
+    background: #e0e0e5;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.titleInfo,
+.descInfo {
+    font-size: 12px;
+    font-weight: 500;
+    color: #6e6e73;
+    letter-spacing: 0.02em;
+}
+
+.input {
+    width: 100%;
+    padding: 9px 12px;
+    border: 1px solid #e0e0e5;
+    border-radius: 10px;
+    font-size: 14px;
+    font-family: inherit;
+    color: #1d1d1f;
+    background: #f5f5f7;
+    outline: none;
+    transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+.input:focus {
+    border-color: #0071e3;
+    background: #ffffff;
+}
+
+form button[type="button"] {
+    margin-top: 4px;
+    padding: 10px;
+    background-color: #0071e3;
+    color: #ffffff;
+    border: none;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 500;
+    font-family: inherit;
+    cursor: pointer;
+    transition: background 0.15s ease;
+}
+
+form button[type="button"]:hover {
+    background-color: #0077ed;
+}
+
+.list-item {
+    display: flex;
+    align-items: center;
+    padding: 6px 10px;
+    border-radius: 8px;
+    font-size: 13.5px;
+    transition: background 0.15s ease;
+    position: relative;
+}
+
+.list-item span {
+    cursor: pointer;
+    flex: 1;
+    color: #1d1d1f;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    padding-right: 24px;
+}
+
+.delete-btn {
+    display: none;
+    position: absolute;
+    right: 8px;
+    background: none;
+    border: none;
+    color: #c7c7cc;
+    cursor: pointer;
+    font-size: 13px;
+    padding: 2px 5px;
+    border-radius: 4px;
+    transition: color 0.15s ease;
+    line-height: 1;
+}
+
+.list-item:hover .delete-btn {
+    display: inline;
+}
+
+.delete-btn:hover {
+    color: #ff3b30;
 }
